@@ -3,21 +3,27 @@
 import riscv_pkg::*;
 
 module datapath (
-    input   logic               clk_i,
-    input   logic               rstn_i,
-    input   logic               PCWrite_i,
-    input   logic               MemWrite_i,
-    input   logic               IRWrite_i,
-    input   logic               RegWrite_i,
-    input   logic   [     2:0]  ImmSrc_i,
-    input   logic   [     1:0]  ALUSrcA_i,
-    input   logic   [     1:0]  ALUSrcB_i,
-    input   alu_op_e            ALUControl_i,
-    input   logic   [     1:0]  ResultSrc_i,
-    input   logic               B_EN_i,
-    output  logic   [XLEN-1:0]  Instr_o,
-    output  logic   [XLEN-1:0]  InstrPast_o,
-    output  logic               Branch_o
+    input   logic                   clk_i,
+    input   logic                   rstn_i,
+    input   logic                   PCWrite_i,
+    input   logic                   MemWrite_i,
+    input   logic                   IRWrite_i,
+    input   logic                   RegWrite_i,
+    input   logic   [       2:0]    ImmSrc_i,
+    input   logic   [       1:0]    ALUSrcA_i,
+    input   logic   [       1:0]    ALUSrcB_i,
+    input   alu_op_e                ALUControl_i,
+    input   logic   [       1:0]    ResultSrc_i,
+    input   logic                   B_EN_i,
+    output  logic   [  XLEN-1:0]    Instr_o,
+    output  logic   [  XLEN-1:0]    InstrPast_o,
+    output  logic                   Branch_o,
+    // for implementation
+    output  logic   [  XLEN-1:0]    PC_o,
+    output  logic   [XWIDTH-1:0]    dbg_reg_addr,
+    output  logic   [  XLEN-1:0]    dbg_reg_data,
+    output  logic   [  XLEN-1:0]    dbg_mem_addr,
+    output  logic   [  XLEN-1:0]    dbg_mem_data
 );
 
     // wires are named considering which port they are coming out off
@@ -169,5 +175,11 @@ module datapath (
     assign PCP4_w       = {29'b0, 3'b100};
     assign Instr_o      = IDMEM_w;
     assign InstrPast_o  = Instr_w;
+
+    assign PC_o         = PC_w;
+    assign dbg_reg_addr = Instr_w[11:7];
+    assign dbg_reg_data = RESULT_m;
+    assign dbg_mem_addr = RESULT_m;
+    assign dbg_mem_data = r_rfout_rd2_w;
 
 endmodule

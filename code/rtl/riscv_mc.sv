@@ -3,8 +3,16 @@
 import riscv_pkg::*;
 
 module riscv_mc (
-    input   logic               clk_i,
-    input   logic               rstn_i
+    input   logic                   clk_i,
+    input   logic                   rstn_i,
+    // for implementation
+    output  logic   [  XLEN-1:0]    pc_dbg,
+    output  logic   [  XLEN-1:0]    instr_dbg,
+    output  state_t                 state_dbg,
+    output  logic   [XWIDTH-1:0]    dbg_reg_addr,
+    output  logic   [  XLEN-1:0]    dbg_reg_data,
+    output  logic   [  XLEN-1:0]    dbg_mem_addr,
+    output  logic   [  XLEN-1:0]    dbg_mem_data
 );
 
     logic               w_PCWrite;
@@ -36,7 +44,13 @@ module riscv_mc (
         .B_EN_i         (w_b_en),
         .Instr_o        (w_Instr),
         .InstrPast_o    (w_InstrPast),
-        .Branch_o       (w_Branch)
+        .Branch_o       (w_Branch),
+        // for implementation
+        .PC_o           (pc_dbg),
+        .dbg_reg_addr   (dbg_reg_addr),
+        .dbg_reg_data   (dbg_reg_data),
+        .dbg_mem_addr   (dbg_mem_addr),
+        .dbg_mem_data   (dbg_mem_data)
     );
 
     control_unit control_unit(
@@ -54,7 +68,11 @@ module riscv_mc (
         .ALUSrcB_o      (w_ALUSrcB),
         .ALUControl_o   (w_ALUControl),
         .ImmSrc_o       (w_ImmSrc),
-        .b_en_o         (w_b_en)
+        .b_en_o         (w_b_en),
+        // for implementation
+        .state_dbg      (state_dbg)
     );
+
+    assign instr_dbg = w_Instr;
 
 endmodule

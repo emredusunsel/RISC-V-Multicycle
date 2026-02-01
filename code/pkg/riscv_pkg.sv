@@ -2,8 +2,8 @@
 
 package riscv_pkg;
 
-    parameter string DMemInitFile = "dmem.mem";         // delete "string" for lint
-    parameter string IMemInitFile = "imem.mem";         // delete "string" for lint
+    parameter DMemInitFile = "dmem.mem";         // delete "string" for lint
+    parameter IMemInitFile = "imem.mem";         // delete "string" for lint
 
     parameter int XLEN          = 32;
     parameter int ADDR_WIDTH    = 32;

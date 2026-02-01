@@ -15,7 +15,9 @@ module main_fsm (
     output  logic   [1:0]   ALUSrcA_o,
     output  logic   [1:0]   ALUSrcB_o,
     output  logic           b_en_o,
-    output  logic           ALUOP_ow_o
+    output  logic           ALUOP_ow_o,
+    // for implementation
+    output  state_t         state_o
 );
 
     state_t state, next_state;
@@ -297,5 +299,7 @@ module main_fsm (
             end
         endcase
     end
+
+    assign state_o = state;
 
 endmodule

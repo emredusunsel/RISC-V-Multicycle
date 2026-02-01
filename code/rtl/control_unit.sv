@@ -17,7 +17,9 @@ module control_unit (
     output  logic   [       1:0]    ALUSrcB_o,
     output  alu_op_e                ALUControl_o,
     output  logic   [       2:0]    ImmSrc_o,
-    output  logic                   b_en_o
+    output  logic                   b_en_o,
+    // for implementation
+    output  state_t                 state_dbg
 );
 
     logic       w_PCUpdate;
@@ -38,7 +40,9 @@ module control_unit (
         .ALUSrcA_o      (ALUSrcA_o),
         .ALUSrcB_o      (ALUSrcB_o),
         .b_en_o         (b_en_o),
-        .ALUOP_ow_o     (w_ALUOP_ow)
+        .ALUOP_ow_o     (w_ALUOP_ow),
+        // for implementation
+        .state_o        (state_dbg)
     );
 
     alu_decoder alu_decoder(
